@@ -12,6 +12,7 @@ class App extends Component {
       username:'',
       password:'',
       signin:false,
+      signup:false,
       styles:{
         visibility:'visible'
       }
@@ -51,7 +52,8 @@ class App extends Component {
         data:{
           username:this.state.username,
           password:this.state.password
-        }
+        },
+        withCredentials:true
       }
     )
     .then((res)=>{
@@ -60,6 +62,12 @@ class App extends Component {
         password:''
       });
       alert(res.data);
+      this.setState({
+        styles:{
+          visibility:'hidden'
+        },
+        signup:true
+      })
     })
     .catch((error)=>{
       alert("Could not connect to the server");
@@ -85,6 +93,7 @@ class App extends Component {
         <label>Already have an account ?</label>
         <button type='button' onClick={this.oldUser}>Sign In</button>
         </div>
+        {this.state.signup ? <Login /> : null}
         {this.state.signin ? <Login /> : null}
       </div>
     );

@@ -5,6 +5,7 @@ const argon2 = require('argon2');
 
 passport.use(new LocalStrategy(
   function(username, password, done) {
+    console.log("Login Request Recieved");
     userTable.user.findOne({ username: username })
     .then((user)=>{
       return argon2.verify(user.password, password)
@@ -18,7 +19,11 @@ passport.use(new LocalStrategy(
         }
     })
     .catch(error => {
-        next(error)
+        console.log(error);
     })
   }
 ));
+
+module.exports = {
+    passport
+}
