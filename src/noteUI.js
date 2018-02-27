@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import './App.css';
+import axios from 'axios';
+import AddUI from './addUI'
 
 class NoteUI extends Component {
 
@@ -14,25 +15,32 @@ class NoteUI extends Component {
                 visibility:'visible'
             }
         }
+        this.addNote=this.addNote.bind(this);
+        // this.listNote=this.listNote.bind(this);
     }
 
-    listNote(){
-        this.setState({
-            notestyles:{
-                visibility:'hidden'
-            },
-            list:true
-        })
-    }
+    // listNote(){
+    //     axios({
+    //         method:'get',
+    //         url:'http://localhost:3001/list',
+    //         withCredentials:true
+    //     })
+    //     .then((obj)=>{
+    //         console.log(obj);
+    //     })
+    //     .catch((error)=>{
+    //         console.log(error);
+    //     })
+    // }
 
-    searchNote(){
-        this.setState({
-            notestyles:{
-                visibility:'hidden'
-            },
-            search:true
-        })
-    }
+    // searchNote(){
+    //     this.setState({
+    //         notestyles:{
+    //             visibility:'hidden'
+    //         },
+    //         search:true
+    //     })
+    // }
 
     addNote(){
         this.setState({
@@ -43,14 +51,14 @@ class NoteUI extends Component {
         })
     }
 
-    removeNote(){
-        this.setState({
-            notestyles:{
-                visibility:'hidden'
-            },
-            remove:true
-        })
-    }
+    // removeNote(){
+    //     this.setState({
+    //         notestyles:{
+    //             visibility:'hidden'
+    //         },
+    //         remove:true
+    //     })
+    // }
 
     render(){
         return(
@@ -62,9 +70,9 @@ class NoteUI extends Component {
                 <button type="button" onClick={this.removeNote}>Remove</button>
                 </div>
                 <div>
-                {this.state.search ? <searchUI /> : null}
-                {this.state.add ? <addUI /> : null}
-                {this.state.remove ? <removeUI /> : null}
+                {/* {this.state.search ? <SearchUI /> : null} */}
+                {this.state.add ? <AddUI /> : null}
+                {/* {this.state.remove ? <RemoveUI /> : null} */}
                 </div>
             </div>
         )

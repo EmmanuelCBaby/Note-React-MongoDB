@@ -7,6 +7,7 @@ const jwt = require('jsonwebtoken');
 const passport1 = require('./passport');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
+const noteTable = require('./noteTable')
 
 app.use(passport1.passport.initialize());
 app.use(bodyParser.json());
@@ -51,6 +52,37 @@ loginHandler = (req,res) => {
     res.send("Logged In Successfully");
 }
 
+// listHandler = (req,res) =>{
+//     var token = req.cookies.token;
+    
+// }
+
+addHandler = (req,res) => {
+    var token = req.cookies.token;
+    var title = req.body.title;
+    var body = req.body.body;
+    var decoded = jwt.verify(token,'ONEPIECE');
+    var username = decoded.username;
+    noteTable.data.create({username:username,title:title,body:body})
+    .then((obj)=>{
+        res.send('Added Note')
+    })
+}
+
+removeHandler = (req,res) => {
+    var token = req.cookies.token;
+    var title = req.body.title;
+    var decoded = jwt.verify(token,'ONEPIECE');
+    var username = decoded.username;
+    noteTable.data.create({username:username,title:title})
+    .then((obj)=>{
+        res.send('Removed Note')
+    }) 
+}
+
+app.delete('/remove',removeHandler);
+app.post('/add',addHandler);
+// app.get('/list',listHandler);
 app.post('/register',registerHandler);
 app.post('/login', passport1.passport.authenticate("local", {session: false}), loginHandler);
 
