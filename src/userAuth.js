@@ -52,10 +52,15 @@ loginHandler = (req,res) => {
     res.send("Logged In Successfully");
 }
 
-// listHandler = (req,res) =>{
-//     var token = req.cookies.token;
-    
-// }
+listHandler = (req,res) =>{
+    var token = req.cookies.token;
+    var decoded = jwt.verify(token,'ONEPIECE');
+    var username = decoded.username;
+    noteTable.data.find({username:username})
+    .then((obj)=>{
+        res.send(obj)
+    })
+}
 
 addHandler = (req,res) => {
     var token = req.cookies.token;
@@ -74,7 +79,7 @@ removeHandler = (req,res) => {
     var title = req.body.title;
     var decoded = jwt.verify(token,'ONEPIECE');
     var username = decoded.username;
-    noteTable.data.create({username:username,title:title})
+    noteTable.data.deleteOne({username:username,title:title})
     .then((obj)=>{
         res.send('Removed Note')
     }) 
@@ -82,7 +87,7 @@ removeHandler = (req,res) => {
 
 app.delete('/remove',removeHandler);
 app.post('/add',addHandler);
-// app.get('/list',listHandler);
+app.get('/list',listHandler);
 app.post('/register',registerHandler);
 app.post('/login', passport1.passport.authenticate("local", {session: false}), loginHandler);
 

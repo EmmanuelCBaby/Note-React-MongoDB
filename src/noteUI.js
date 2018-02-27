@@ -1,46 +1,40 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import AddUI from './addUI'
+import RemoveUI from './removeUI'
 
 class NoteUI extends Component {
 
     constructor(props){
         super(props);
         this.state = {
-            list:false,
-            search:false,
             add:false,
             remove:false,
+            notes:[],
             notestyles:{
                 visibility:'visible'
             }
         }
         this.addNote=this.addNote.bind(this);
-        // this.listNote=this.listNote.bind(this);
+        this.removeNote=this.removeNote.bind(this);
+        this.listNote=this.listNote.bind(this);
     }
 
-    // listNote(){
-    //     axios({
-    //         method:'get',
-    //         url:'http://localhost:3001/list',
-    //         withCredentials:true
-    //     })
-    //     .then((obj)=>{
-    //         console.log(obj);
-    //     })
-    //     .catch((error)=>{
-    //         console.log(error);
-    //     })
-    // }
-
-    // searchNote(){
-    //     this.setState({
-    //         notestyles:{
-    //             visibility:'hidden'
-    //         },
-    //         search:true
-    //     })
-    // }
+    listNote(){
+        axios({
+            method:'get',
+            url:'http://localhost:3001/list',
+            withCredentials:true
+        })
+        .then((obj)=>{
+            this.setState({
+                notes:obj.data
+            })
+        })
+        .catch((error)=>{
+            console.log(error);
+        })
+    }
 
     addNote(){
         this.setState({
@@ -51,28 +45,33 @@ class NoteUI extends Component {
         })
     }
 
-    // removeNote(){
-    //     this.setState({
-    //         notestyles:{
-    //             visibility:'hidden'
-    //         },
-    //         remove:true
-    //     })
-    // }
+    removeNote(){
+        this.setState({
+            notestyles:{
+                visibility:'hidden'
+            },
+            remove:true
+        })
+    }
 
     render(){
         return(
             <div>
                 <div style={this.state.notestyles}>
                 <button type="button" onClick={this.listNote}>List</button>
-                <button type="button" onClick={this.searchNote}>Search</button>
                 <button type="button" onClick={this.addNote}>Add</button>
                 <button type="button" onClick={this.removeNote}>Remove</button>
                 </div>
                 <div>
-                {/* {this.state.search ? <SearchUI /> : null} */}
+                {
+                    this.state.notes.map((item,index)=>{
+                        return <h1 key={index}>{item}</h1>
+                    })
+                }
+                </div>
+                <div>
                 {this.state.add ? <AddUI /> : null}
-                {/* {this.state.remove ? <RemoveUI /> : null} */}
+                {this.state.remove ? <RemoveUI /> : null}
                 </div>
             </div>
         )

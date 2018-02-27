@@ -46,4 +46,4 @@ class RemoveUI extends Component {
     }
 }
 
-export default AddUI;
+export default RemoveUI;
