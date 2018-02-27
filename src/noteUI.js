@@ -64,8 +64,11 @@ class NoteUI extends Component {
                 </div>
                 <div>
                 {
-                    this.state.notes.map((item,index)=>{
-                        return <h1 key={index}>{item}</h1>
+                    this.state.notes.map((element,index)=>{
+                        return (<div key={index}>
+                        <p>Title : {element.title}</p>
+                        <p>Body : {element.body}</p>
+                        </div>)
                     })
                 }
                 </div>
